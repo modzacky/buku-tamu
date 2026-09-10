@@ -85,51 +85,8 @@ File `bukutamu.sql` berisi struktur + data (admin & data contoh) sehingga langka
 mysql -u root -p bukutamu < bukutamu.sql
 ```
 
-## Struktur Penting
-
-```
-app/
-├── Http/
-│   ├── Controllers/
-│   │   ├── Auth/LoginController.php      # login username/email + logout
-│   │   ├── GuestBookController.php       # form publik + simpan tamu
-│   │   └── Admin/
-│   │       ├── DashboardController.php   # statistik dashboard
-│   │       └── GuestController.php       # daftar/edit/hapus tamu (admin)
-│   └── Requests/StoreGuestRequest.php    # aturan validasi data tamu
-└── Models/Guest.php                      # model tamu + scope pencarian/bulan
-database/
-├── migrations/                           # skema tabel users, guests
-└── seeders/DatabaseSeeder.php            # akun admin + data contoh
-lang/id/                                  # pesan validasi Bahasa Indonesia
-resources/views/
-├── guests/form.blade.php                 # form buku tamu (4 URL sumber)
-└── admin/                                # login, dashboard, data tamu
-routes/web.php                            # semua rute aplikasi
-tests/Feature/                            # 21 feature test (PHPUnit)
-bukutamu.sql                              # dump database MySQL
-```
-
-## Panduan Hosting (InfinityFree — gratis)
-
-1. Daftar akun di <https://www.infinityfree.com> lalu buat satu akun hosting, pilih subdomain gratis (mis. `bukutamu.infinityfreeapp.com`).
-2. Di panel (Client Area → Control Panel) buat **MySQL Database**. Catat: nama database, username, password, dan host (mis. `sqlXXX.infinityfree.com`).
-3. Impor `bukutamu.sql` melalui **phpMyAdmin** (menu MySQL Databases → Admin phpMyAdmin).
-4. Upload source code ke akun hosting:
-   - Isi **seluruh isi project KECUALI folder `public/`** ke root akun (sejajar dengan folder `htdocs`).
-   - Isi folder `public/` (index.php, `.htaccess`, folder `build/`) ke dalam `htdocs`.
-   - Cara termudah: zip semua file lalu gunakan File Manager di panel untuk upload & extract; atau via FTP (FileZilla) dengan kredensial FTP dari panel.
-5. Buat file `.env` di root akun berdasarkan `.env.example`, sesuaikan:
-   - `APP_KEY` (generate lokal dengan `php artisan key:generate --show`, salin nilainya),
-   - `APP_ENV=production`, `APP_DEBUG=false`,
-   - `DB_HOST/DB_DATABASE/DB_USERNAME/DB_PASSWORD` dari langkah 2.
-6. Selesai — buka URL subdomain untuk form tamu, dan `/login` untuk admin.
-
-> Catatan: asset frontend sudah di-build (`public/build`) sehingga tidak perlu Node.js di hosting. Jika perlu membangun ulang, jalankan `npm run build` secara lokal sebelum upload.
-
 ## Status Pengerjaan
 
-Seluruh fitur pada studi kasus telah selesai:
 
 - [x] Login admin (username/email + password)
 - [x] Data tamu (lihat, tambah otomatis via form publik, edit, hapus)
